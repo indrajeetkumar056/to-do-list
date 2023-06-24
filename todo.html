@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-Do List</title>
+    <style>
+        body {
+            text-align: center;
+            margin-top: 50px;
+            background-color: #f2f2f2;
+        }
+
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #ffffcc;
+            color: #333;
+            border: none;
+            cursor: pointer;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            text-align: left;
+        }
+
+        li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .task-item {
+            flex-grow: 1;
+            text-align: left;
+        }
+
+        .task-item.completed {
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        .delete-button {
+            background-color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+    <h1>To-Do List</h1>
+    <input type="text" id="taskInput" placeholder="Enter a task">
+    <button onclick="addTask()">Add Task</button>
+
+    <ul id="taskList"></ul>
+    <h1>Click the button to change the background color!</h1>
+    <button class="color-button" onclick="changeColor()">Change Color</button>
+
+    <script>
+        var taskId = 1;
+
+        function changeColor() {
+            var colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+            var randomColor = colors[Math.floor(Math.random() * colors.length)];
+            document.body.style.backgroundColor = randomColor;
+        }
+
+        function addTask() {
+            var taskInput = document.getElementById("taskInput");
+            var taskList = document.getElementById("taskList");
+
+            if (taskInput.value !== '') {
+                var taskItem = document.createElement("li");
+                var checkbox = document.createElement("input");
+                var taskText = document.createElement("span");
+                var deleteButton = document.createElement("button");
+
+                checkbox.type = "checkbox";
+                taskText.textContent = taskId + '. ' + taskInput.value;
+                deleteButton.textContent = "Delete";
+                deleteButton.className = "delete-button";
+
+                taskItem.appendChild(checkbox);
+                taskItem.appendChild(taskText);
+                taskItem.appendChild(deleteButton);
+                taskList.appendChild(taskItem);
+
+                taskInput.value = '';
+                taskId++;
+
+                deleteButton.onclick = function() {
+                    taskItem.remove();
+                };
+
+                checkbox.onchange = function() {
+                    if (checkbox.checked) {
+                        taskItem.classList.add("completed");
+                    } else {
+                        taskItem.classList.remove("completed");
+                    }
+                };
+            }
+        }
+    </script>
+</body>
+</html>
